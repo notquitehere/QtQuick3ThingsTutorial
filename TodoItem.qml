@@ -42,13 +42,13 @@ FocusScope {
 
             TextInput {
                 id: editItemText
-                text: itemName
+                text: item
                 Layout.margins: 8
                 Layout.fillWidth: true
                 font.strikeout: completed
 
                 onEditingFinished: {
-                    itemName = text
+                    item= text
                     focus = false
                 }
 

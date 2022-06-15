@@ -5,16 +5,16 @@ project(ThreeThings VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 COMPONENTS Quick Widgets REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Quick Widgets Sql REQUIRED)
 
 qt_add_executable(appThreeThings
     main.cpp
-    dataobject.h
-    dataobject.cpp
-    datamodel.h
-    datamodel.cpp
     filtermodel.h
     filtermodel.cpp
+    sqlmodel.h
+    sqlmodel.cpp
+    dbhelper.h
+    dbhelper.cpp
 )
 
 qt_add_qml_module(appThreeThings
@@ -35,4 +35,5 @@ target_compile_definitions(appThreeThings
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(appThreeThings
     PRIVATE Qt6::Quick
-    PRIVATE Qt6::Widgets)
+    PRIVATE Qt6::Widgets
+    PRIVATE Qt6::Sql)

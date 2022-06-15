@@ -1,10 +1,12 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QDebug>
+#include <QSqlDatabase>
 
-#include "datamodel.h"
-#include "dataobject.h"
 #include "filtermodel.h"
+#include "sqlmodel.h"
+#include "dbhelper.h"
 
 
 int main(int argc, char *argv[])
@@ -12,16 +14,15 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_DontUseNativeMenuBar, false);
 
-    DataModel* dataList = new DataModel({
-        new DataObject("Do 30 minutes of exercise", true, false),
-        new DataObject("Write blog post", true, false),
-        new DataObject("Bake a cake", true, false),
-        new DataObject("Get the car cleaned", false, false),
-        new DataObject("Learn how to knit", false, false),
-    });
+    QSqlDatabase db = dbhelper::connectDB(false);
+
+    SqlModel* data(new SqlModel(&app, db));
+    data->setTable("todoTable");
+    data->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    data->select();
 
     FilterModel filterModel;
-    filterModel.setSourceModel(dataList);
+    filterModel.setSourceModel(data);
     filterModel.setShowTodayOnly(true);
 
 
